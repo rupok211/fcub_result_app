@@ -14,7 +14,7 @@
             margin-bottom: 30px;
         }
         form {
-            max-width: 600px;
+            max-width: 650px;
             margin: auto;
             background: white;
             padding: 30px;
@@ -26,7 +26,7 @@
             margin-top: 15px;
             display: block;
         }
-        input[type="text"] {
+        input[type="text"], select {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
@@ -42,8 +42,22 @@
             gap: 10px;
             margin-bottom: 10px;
         }
-        .subject-group input {
+        .subject-group input[type="text"] {
+            flex: 2;
+        }
+        .subject-group select {
             flex: 1;
+        }
+        .subject-group button {
+            background-color: #c62828;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        .subject-group button:hover {
+            background-color: #b71c1c;
         }
         button.add-subject-btn {
             margin-top: 10px;
@@ -85,7 +99,17 @@
             div.classList.add('subject-group');
             div.innerHTML = `
                 <input type="text" name="subject_names[]" placeholder="Subject Name" required>
-                <input type="text" name="grades[]" placeholder="Grade" required>
+                <select name="grades[]" required>
+                    <option value="">Select Grade</option>
+                    <option value="A+">A+</option>
+                    <option value="A">A</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="F">F</option>
+                </select>
                 <button type="button" onclick="this.parentElement.remove()">Remove</button>
             `;
             container.appendChild(div);
@@ -113,13 +137,33 @@
         <input type="text" name="batch" required>
 
         <label>Semester:</label>
-        <input type="text" name="semester" required>
+        <select name="semester" required>
+            <option value="">-- Select Semester --</option>
+            <option value="First Semester">First Semester</option>
+            <option value="Second Semester">Second Semester</option>
+            <option value="Third Semester">Third Semester</option>
+            <option value="Fourth Semester">Fourth Semester</option>
+            <option value="Fifth Semester">Fifth Semester</option>
+            <option value="Sixth Semester">Sixth Semester</option>
+            <option value="Seventh Semester">Seventh Semester</option>
+            <option value="Eighth Semester">Eighth Semester</option>
+        </select>
 
         <div id="subjects-container" class="subjects-container">
             <label>Subjects and Grades:</label>
             <div class="subject-group">
                 <input type="text" name="subject_names[]" placeholder="Subject Name" required>
-                <input type="text" name="grades[]" placeholder="Grade" required>
+                <select name="grades[]" required>
+                    <option value="">Select Grade</option>
+                    <option value="A+">A+</option>
+                    <option value="A">A</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="F">F</option>
+                </select>
             </div>
         </div>
 
