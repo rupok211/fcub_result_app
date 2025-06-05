@@ -3,7 +3,6 @@
 <head>
     <title>Edit Result - FCUB Admin</title>
     <style>
-        /* Use the same styling as add form */
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             padding: 40px;
@@ -27,7 +26,7 @@
             margin-top: 15px;
             display: block;
         }
-        input[type="text"] {
+        input[type="text"], select {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
@@ -45,6 +44,9 @@
         }
         .subject-group input {
             flex: 1;
+        }
+        .subject-group select {
+            width: 120px;
         }
         button.add-subject-btn {
             margin-top: 10px;
@@ -80,15 +82,39 @@
             cursor: pointer;
             padding: 0 12px;
             font-size: 1.1em;
+            align-self: center;
+            height: 36px;
         }
         button.remove-btn:hover {
             background-color: #9a0007;
         }
+
+        /* Flash message styles */
         .flash-message {
             text-align: center;
             font-weight: bold;
             margin-bottom: 20px;
-            color: green;
+            padding: 10px;
+            border-radius: 5px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            box-sizing: border-box;
+        }
+        .flash-message.success {
+            color: #155724;
+            background-color: #d4edda;
+            border: 1px solid #c3e6cb;
+        }
+        .flash-message.danger {
+            color: #721c24;
+            background-color: #f8d7da;
+            border: 1px solid #f5c6cb;
+        }
+        .flash-message.warning {
+            color: #856404;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
         }
     </style>
     <script>
@@ -97,8 +123,18 @@
             const div = document.createElement('div');
             div.classList.add('subject-group');
             div.innerHTML = `
-                <input type="text" name="subject_names[]" placeholder="Subject Name" required>
-                <input type="text" name="grades[]" placeholder="Grade" required>
+                <input type="text" name="subject_names[]" placeholder="Subject Name" required pattern="[a-zA-Z0-9\\s]+" title="Only letters, numbers, and spaces allowed">
+                <select name="grades[]" required>
+                    <option value="">Select Grade</option>
+                    <option value="A+">A+</option>
+                    <option value="A">A</option>
+                    <option value="A-">A-</option>
+                    <option value="B+">B+</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                    <option value="F">F</option>
+                </select>
                 <button type="button" class="remove-btn" onclick="this.parentElement.remove()">×</button>
             `;
             container.appendChild(div);
@@ -109,9 +145,12 @@
 
     <h2>Edit Student Result</h2>
 
-    {% with messages = get_flashed_messages(category_filter=["success", "danger"]) %}
+    <!-- Flash messages show here -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
-        <div class="flash-message">{{ messages[0] }}</div>
+        {% for category, message in messages %}
+          <div class="flash-message {{ category }}">{{ message }}</div>
+        {% endfor %}
       {% endif %}
     {% endwith %}
 
@@ -126,14 +165,34 @@
         <input type="text" name="batch" value="{{ result.batch }}" required>
 
         <label>Semester:</label>
-        <input type="text" name="semester" value="{{ result.semester }}" required>
+        <select name="semester" required>
+            <option value="">-- Select Semester --</option>
+            <option value="First Semester" {{ 'selected' if result.semester == 'First Semester' else '' }}>First Semester</option>
+            <option value="Second Semester" {{ 'selected' if result.semester == 'Second Semester' else '' }}>Second Semester</option>
+            <option value="Third Semester" {{ 'selected' if result.semester == 'Third Semester' else '' }}>Third Semester</option>
+            <option value="Fourth Semester" {{ 'selected' if result.semester == 'Fourth Semester' else '' }}>Fourth Semester</option>
+            <option value="Fifth Semester" {{ 'selected' if result.semester == 'Fifth Semester' else '' }}>Fifth Semester</option>
+            <option value="Sixth Semester" {{ 'selected' if result.semester == 'Sixth Semester' else '' }}>Sixth Semester</option>
+            <option value="Seventh Semester" {{ 'selected' if result.semester == 'Seventh Semester' else '' }}>Seventh Semester</option>
+            <option value="Eighth Semester" {{ 'selected' if result.semester == 'Eighth Semester' else '' }}>Eighth Semester</option>
+        </select>
 
         <div id="subjects-container" class="subjects-container">
             <label>Subjects and Grades:</label>
             {% for subject in subjects %}
             <div class="subject-group">
-                <input type="text" name="subject_names[]" value="{{ subject.subject_name }}" required>
-                <input type="text" name="grades[]" value="{{ subject.grade }}" required>
+                <input type="text" name="subject_names[]" value="{{ subject.subject_name }}" required pattern="[a-zA-Z0-9\s]+" title="Only letters, numbers, and spaces allowed">
+                <select name="grades[]" required>
+                    <option value="">Select Grade</option>
+                    <option value="A+" {{ 'selected' if subject.grade == 'A+' else '' }}>A+</option>
+                    <option value="A" {{ 'selected' if subject.grade == 'A' else '' }}>A</option>
+                    <option value="A-" {{ 'selected' if subject.grade == 'A-' else '' }}>A-</option>
+                    <option value="B+" {{ 'selected' if subject.grade == 'B+' else '' }}>B+</option>
+                    <option value="B" {{ 'selected' if subject.grade == 'B' else '' }}>B</option>
+                    <option value="C" {{ 'selected' if subject.grade == 'C' else '' }}>C</option>
+                    <option value="D" {{ 'selected' if subject.grade == 'D' else '' }}>D</option>
+                    <option value="F" {{ 'selected' if subject.grade == 'F' else '' }}>F</option>
+                </select>
                 <button type="button" class="remove-btn" onclick="this.parentElement.remove()">×</button>
             </div>
             {% endfor %}
