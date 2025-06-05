@@ -82,7 +82,6 @@ fcub-result-system/
 - **Username:** ``  
 - **Password:** ``
 
-> Change the password after first login!
 
 ---
 
