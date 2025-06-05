@@ -17,21 +17,24 @@ def admin_required(func):
     def wrapper(*args, **kwargs):
         if not session.get('admin_logged_in'):
             flash('Please login first.', 'warning')
-            return redirect(url_for('admin_login'))
+            return redirect(url_for('admin_login'))  
         return func(*args, **kwargs)
     return wrapper
 
-# Validation: subject names only letters, numbers, spaces; grade must be in allowed set
+
 def is_valid_subject_and_grade(subject, grade):
     valid_subject = re.match(r'^[a-zA-Z0-9\s]+$', subject)
     valid_grades = {'A+', 'A', 'A-', 'B+', 'B', 'C', 'D', 'F'}
     return bool(valid_subject) and grade in valid_grades
 
+
 @app.route('/')
 def home():
-    return render_template('home.html')
+    # Redirect to student result view page instead of rendering 'home.html'
+    return redirect(url_for('view_result'))
 
-@app.route('/admin/login', methods=['GET', 'POST'])
+
+@app.route('/admin', methods=['GET', 'POST'])
 def admin_login():
     if request.method == 'POST':
         username = request.form['username'].strip()
