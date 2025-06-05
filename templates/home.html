@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FCUB CSE Result Portal</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #e0f7fa, #f1f8e9);
+            text-align: center;
+            padding: 50px;
+        }
+
+        h1 {
+            color: #2e7d32;
+            font-size: 3em;
+            margin-bottom: 40px;
+        }
+
+        a.button {
+            display: inline-block;
+            background-color: #0288d1;
+            color: white;
+            padding: 15px 30px;
+            margin: 10px;
+            border: none;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+        }
+
+        a.button:hover {
+            background-color: #01579b;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to FCUB CSE Result Portal</h1>
+    <a href="{{ url_for('view_result') }}" class="button">View Result</a>
+    <a href="{{ url_for('admin_login') }}" class="button">Admin Login</a>
+</body>
+</html>

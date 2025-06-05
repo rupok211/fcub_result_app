@@ -1,0 +1,80 @@
+<!-- templates/student_result.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Student Result - FCUB CSE Department</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px auto;
+            max-width: 700px;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        .title-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            border: 1px solid #ccc;
+            padding: 8px 12px;
+            text-align: left;
+        }
+        th {
+            background-color: #eee;
+        }
+        .back-link {
+            margin-top: 20px;
+            display: inline-block;
+            text-decoration: none;
+            color: #2c7be5;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="title-header">
+        <h1>Result of FCUB - Department of CSE</h1>
+        <p><em>First Capital University of Bangladesh</em></p>
+    </div>
+
+    <h2>{{ result.student_name }} (ID: {{ result.student_id }})</h2>
+    <p><strong>Batch:</strong> {{ result.batch }}</p>
+    <p><strong>Semester:</strong> {{ result.semester }}</p>
+
+    <h3>Subjects & Grades</h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Subject</th>
+                <th>Grade</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subject in result.subjects %}
+            <tr>
+                <td>{{ subject.subject_name }}</td>
+                <td>{{ subject.grade }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a class="back-link" href="{{ url_for('view_result') }}">&larr; Back to Search</a>
+
+</body>
+</html>

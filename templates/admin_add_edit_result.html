@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Edit Result - FCUB Admin</title>
+    <style>
+        /* Use the same styling as add form */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            padding: 40px;
+            background: #fff3e0;
+        }
+        h2 {
+            text-align: center;
+            color: #ef6c00;
+            margin-bottom: 30px;
+        }
+        form {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        label {
+            font-weight: bold;
+            margin-top: 15px;
+            display: block;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+        .subjects-container {
+            margin-top: 20px;
+        }
+        .subject-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        .subject-group input {
+            flex: 1;
+        }
+        button.add-subject-btn {
+            margin-top: 10px;
+            padding: 8px 12px;
+            background-color: #ef6c00;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button.add-subject-btn:hover {
+            background-color: #e65100;
+        }
+        button.submit-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 12px;
+            background-color: #ef6c00;
+            border: none;
+            color: white;
+            font-size: 1.1em;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+        button.submit-btn:hover {
+            background-color: #e65100;
+        }
+        button.remove-btn {
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            padding: 0 12px;
+            font-size: 1.1em;
+        }
+        button.remove-btn:hover {
+            background-color: #9a0007;
+        }
+        .flash-message {
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: green;
+        }
+    </style>
+    <script>
+        function addSubjectRow() {
+            const container = document.getElementById('subjects-container');
+            const div = document.createElement('div');
+            div.classList.add('subject-group');
+            div.innerHTML = `
+                <input type="text" name="subject_names[]" placeholder="Subject Name" required>
+                <input type="text" name="grades[]" placeholder="Grade" required>
+                <button type="button" class="remove-btn" onclick="this.parentElement.remove()">×</button>
+            `;
+            container.appendChild(div);
+        }
+    </script>
+</head>
+<body>
+
+    <h2>Edit Student Result</h2>
+
+    {% with messages = get_flashed_messages(category_filter=["success", "danger"]) %}
+      {% if messages %}
+        <div class="flash-message">{{ messages[0] }}</div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('edit_result', result_id=result.id) }}">
+        <label>Student Name:</label>
+        <input type="text" name="student_name" value="{{ result.student_name }}" required>
+
+        <label>Student ID:</label>
+        <input type="text" name="student_id" value="{{ result.student_id }}" required>
+
+        <label>Batch:</label>
+        <input type="text" name="batch" value="{{ result.batch }}" required>
+
+        <label>Semester:</label>
+        <input type="text" name="semester" value="{{ result.semester }}" required>
+
+        <div id="subjects-container" class="subjects-container">
+            <label>Subjects and Grades:</label>
+            {% for subject in subjects %}
+            <div class="subject-group">
+                <input type="text" name="subject_names[]" value="{{ subject.subject_name }}" required>
+                <input type="text" name="grades[]" value="{{ subject.grade }}" required>
+                <button type="button" class="remove-btn" onclick="this.parentElement.remove()">×</button>
+            </div>
+            {% endfor %}
+        </div>
+
+        <button type="button" class="add-subject-btn" onclick="addSubjectRow()">Add Another Subject</button>
+
+        <button type="submit" class="submit-btn">Update Result</button>
+    </form>
+
+</body>
+</html>

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View Student Result - FCUB</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #e3f2fd;
+            padding: 50px 0;
+            text-align: center;
+        }
+        h2 {
+            color: #0d47a1;
+            margin-bottom: 30px;
+        }
+        form {
+            display: inline-block;
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        label {
+            font-weight: bold;
+            margin-top: 10px;
+            display: block;
+        }
+        input[type="text"] {
+            width: 250px;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 8px;
+            border: 1px solid #90caf9;
+            box-sizing: border-box;
+        }
+        button {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background-color: #0d47a1;
+            border: none;
+            color: white;
+            font-size: 1.1em;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #08306b;
+        }
+        .result-container {
+            margin-top: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            text-align: left;
+        }
+        .result-container h3 {
+            margin-top: 0;
+            color: #0d47a1;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 10px 15px;
+            border: 1px solid #90caf9;
+            text-align: center;
+        }
+        th {
+            background-color: #bbdefb;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>View Your Result</h2>
+
+    <form method="POST" action="{{ url_for('view_result') }}">
+        <label>Student ID:</label>
+        <input type="text" name="student_id" required>
+
+        <label>Batch:</label>
+        <input type="text" name="batch" required>
+
+        <button type="submit">Search Result</button>
+    </form>
+
+    {% if error %}
+    <div class="error">{{ error }}</div>
+    {% endif %}
+
+    {% if result %}
+    <div class="result-container">
+        <h3>Result for {{ result.student_name }} (ID: {{ result.student_id }})</h3>
+        <p><strong>Batch:</strong> {{ result.batch }} | <strong>Semester:</strong> {{ result.semester }}</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Grade</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subject in subjects %}
+                <tr>
+                    <td>{{ subject.subject_name }}</td>
+                    <td>{{ subject.grade }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+</body>
+</html>
