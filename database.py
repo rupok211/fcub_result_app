@@ -13,10 +13,10 @@ class Result(db.Model):
     student_id = db.Column(db.String(50), nullable=False)
     batch = db.Column(db.String(50), nullable=False)
     semester = db.Column(db.String(50), nullable=False)
-    subjects = db.relationship('Subject', backref='result', cascade='all, delete-orphan')
+    subjects = db.relationship('Subject', backref='result', cascade='all, delete-orphan', lazy=True)
 
 class Subject(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     subject_name = db.Column(db.String(100), nullable=False)
     grade = db.Column(db.String(10), nullable=False)
-    result_id = db.Column(db.Integer, db.ForeignKey('result.id'))
+    result_id = db.Column(db.Integer, db.ForeignKey('result.id'), nullable=False)
